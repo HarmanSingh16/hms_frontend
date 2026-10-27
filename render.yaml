@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: hms-frontend
+    env: static
+    buildCommand: npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://hms-backend-0lar.onrender.com/api/*
+      - type: rewrite
+        source: /health
+        destination: https://hms-backend-0lar.onrender.com/health
+      - type: rewrite
+        source: /*
+        destination: /index.html
