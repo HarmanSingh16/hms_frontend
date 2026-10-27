@@ -22,6 +22,7 @@ import {
   UserPlus,
 } from 'lucide-react';
 import { InviteDoctorModal } from '../../components/admin/InviteDoctorModal';
+import { getErrorMessage } from '../../utils/errors';
 
 export const AdminDoctorSchedulePage: React.FC = () => {
   const [doctors, setDoctors] = useState<DoctorProfile[]>([]);
@@ -81,7 +82,7 @@ export const AdminDoctorSchedulePage: React.FC = () => {
       }
       setEditableSchedules(formatted);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch doctor schedule');
+      setError(getErrorMessage(err, 'Failed to fetch doctor schedule'));
     } finally {
       setIsLoading(false);
     }
@@ -152,7 +153,7 @@ export const AdminDoctorSchedulePage: React.FC = () => {
         loadDoctorSchedule(selectedDoctorId);
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to update schedule');
+      setError(getErrorMessage(err, 'Failed to update schedule'));
     } finally {
       setIsSaving(false);
     }
@@ -167,7 +168,7 @@ export const AdminDoctorSchedulePage: React.FC = () => {
       setSaveSuccess(true);
       loadDoctorSchedule(selectedDoctorId);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to commit changes');
+      setError(getErrorMessage(err, 'Failed to commit changes'));
     } finally {
       setIsSaving(false);
     }
@@ -191,7 +192,7 @@ export const AdminDoctorSchedulePage: React.FC = () => {
       setLeaveReason('');
       loadDoctorSchedule(selectedDoctorId);
     } catch (err: unknown) {
-      setLeaveError(err instanceof Error ? err.message : 'Failed to book leave');
+      setLeaveError(getErrorMessage(err, 'Failed to book leave'));
     } finally {
       setIsBookingLeave(false);
     }

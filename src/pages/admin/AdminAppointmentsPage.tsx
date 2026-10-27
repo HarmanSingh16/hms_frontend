@@ -15,6 +15,7 @@ import { Card } from '../../components/common/Card';
 import { HistoryModal } from '../../components/queue/HistoryModal';
 import { CancelModal } from '../../components/queue/CancelModal';
 import { SyncIndicator } from '../../components/common/SyncIndicator';
+import { getErrorMessage } from '../../utils/errors';
 import {
   Stethoscope,
   Building2,
@@ -65,7 +66,7 @@ export const AdminAppointmentsPage: React.FC = () => {
       setTotalCount(res.total_count);
       setLastUpdated(new Date());
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to load hospital appointments');
+      setError(getErrorMessage(err, 'Failed to load hospital appointments'));
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +82,7 @@ export const AdminAppointmentsPage: React.FC = () => {
       const updated = await appointmentsApi.checkIn(id);
       setAppointments((prev) => prev.map((a) => (a.id === id ? updated : a)));
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Failed to check in');
+      alert(getErrorMessage(err, 'Failed to check in'));
     }
   };
 
@@ -90,7 +91,7 @@ export const AdminAppointmentsPage: React.FC = () => {
       const updated = await appointmentsApi.complete(id);
       setAppointments((prev) => prev.map((a) => (a.id === id ? updated : a)));
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Failed to complete visit');
+      alert(getErrorMessage(err, 'Failed to complete visit'));
     }
   };
 
@@ -99,7 +100,7 @@ export const AdminAppointmentsPage: React.FC = () => {
       const updated = await appointmentsApi.revertNoShow(id);
       setAppointments((prev) => prev.map((a) => (a.id === id ? updated : a)));
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Failed to revert no-show');
+      alert(getErrorMessage(err, 'Failed to revert no-show'));
     }
   };
 

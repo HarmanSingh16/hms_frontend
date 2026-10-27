@@ -31,7 +31,7 @@ export const DepartmentManagementPage: React.FC = () => {
       const data = await departmentsApi.list();
       setDepartments(data);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch departments');
+      setError(getErrorMessage(err, 'Failed to fetch departments'));
     } finally {
       setIsLoading(false);
     }
@@ -56,9 +56,7 @@ export const DepartmentManagementPage: React.FC = () => {
       setDepartments((prev) => [...prev, created]);
       setNewDeptName('');
     } catch (err: unknown) {
-      setCreateError(
-        err instanceof Error ? err.message : 'Department name already exists or invalid.'
-      );
+      setCreateError(getErrorMessage(err, 'Failed to create department.'));
     } finally {
       setIsCreating(false);
     }
@@ -87,9 +85,7 @@ export const DepartmentManagementPage: React.FC = () => {
       setDepartments((prev) => prev.map((d) => (d.id === updated.id ? updated : d)));
       setEditTarget(null);
     } catch (err: unknown) {
-      setUpdateError(
-        err instanceof Error ? err.message : 'Failed to update department name.'
-      );
+      setUpdateError(getErrorMessage(err, 'Failed to update department name.'));
     } finally {
       setIsUpdating(false);
     }

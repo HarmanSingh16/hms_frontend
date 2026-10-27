@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../common/Modal';
 import { Button } from '../common/Button';
 import { AlertTriangle } from 'lucide-react';
+import { getErrorMessage } from '../../utils/errors';
 
 interface CancelModalProps {
   isOpen: boolean;
@@ -36,7 +37,7 @@ export const CancelModal: React.FC<CancelModalProps> = ({
       setReason('');
       onClose();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to cancel appointment');
+      setError(getErrorMessage(err, 'Failed to cancel appointment'));
     } finally {
       setIsLoading(false);
     }

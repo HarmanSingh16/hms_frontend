@@ -25,6 +25,7 @@ import {
   Loader2,
   Search,
 } from 'lucide-react';
+import { getErrorMessage } from '../../utils/errors';
 
 interface BookingWizardModalProps {
   isOpen: boolean;
@@ -153,7 +154,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       onClose();
     } catch (err: unknown) {
       setSubmissionError(
-        err instanceof Error ? err.message : 'Slot collision or booking failed. Please try another slot.'
+        getErrorMessage(err, 'Slot collision or booking failed. Please try another slot.')
       );
       // Re-fetch slots on collision
       if (selectedDoctor && selectedDate) {

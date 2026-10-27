@@ -6,6 +6,7 @@ import { AppointmentStatusEventResponse } from '../../types/api';
 import { formatDateTime } from '../../utils/date';
 import { getStatusBadgeClass, getStatusLabel } from '../../utils/formatters';
 import { Clock, User, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
+import { getErrorMessage } from '../../utils/errors';
 
 interface HistoryModalProps {
   appointmentId: number | null;
@@ -29,7 +30,7 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
       appointmentsApi
         .getHistory(appointmentId)
         .then((data) => setHistory(data))
-        .catch((err) => setError(err.message || 'Failed to load transition history'))
+        .catch((err) => setError(getErrorMessage(err, 'Failed to load transition history')))
         .finally(() => setLoading(false));
     } else {
       setHistory([]);
