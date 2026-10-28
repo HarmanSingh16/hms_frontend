@@ -19,13 +19,16 @@ export const SyncIndicator: React.FC<SyncIndicatorProps> = ({
     setSecondsAgo(0);
     const interval = setInterval(() => {
       setSecondsAgo(Math.floor((Date.now() - lastUpdated.getTime()) / 1000));
-    }, 1000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [lastUpdated]);
 
   const getTimeAgoText = () => {
-    if (secondsAgo < 5) return 'Just now';
-    if (secondsAgo < 60) return `${secondsAgo}s ago`;
+    if (secondsAgo < 10) return 'Just now';
+    if (secondsAgo < 60) {
+      const tens = Math.floor(secondsAgo / 10) * 10;
+      return `${tens}s ago`;
+    }
     const mins = Math.floor(secondsAgo / 60);
     return `${mins}m ago`;
   };

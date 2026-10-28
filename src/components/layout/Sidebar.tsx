@@ -107,6 +107,7 @@ export const Sidebar: React.FC = () => {
             <NavLink
               key={link.to}
               to={link.to}
+              end
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                   isActive
