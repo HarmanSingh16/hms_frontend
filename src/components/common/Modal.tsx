@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 interface ModalProps {
@@ -28,6 +29,18 @@ export const Modal: React.FC<ModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const maxWidthClasses = {
@@ -38,12 +51,16 @@ export const Modal: React.FC<ModalProps> = ({
     '2xl': 'max-w-2xl',
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#17223a]/60 backdrop-blur-xs transition-opacity duration-200">
+  const modalContent = (
+    <div
+      className="fixed inset-0 z-50 m-0 flex items-center justify-center p-4 bg-[#17223a]/60 backdrop-blur-xs transition-opacity duration-200"
+      onClick={onClose}
+    >
       <div
         className={`bg-white rounded-2xl shadow-2xl border border-[#dfdcd7] w-full ${maxWidthClasses[maxWidth]} overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-150`}
         role="dialog"
         aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#dfdcd7] bg-[#faf6f0]">
           <h3 className="text-xl font-serif font-semibold text-[#17223a] tracking-tight">{title}</h3>
@@ -66,4 +83,6 @@ export const Modal: React.FC<ModalProps> = ({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
