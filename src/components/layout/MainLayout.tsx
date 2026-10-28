@@ -5,7 +5,7 @@ import { Sidebar } from './Sidebar';
 
 export const MainLayout: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-[#f8f4ed] text-[#17223a]">
       <Navbar />
       <div className="flex-1 flex max-w-7xl w-full mx-auto">
         <Sidebar />

@@ -16,34 +16,34 @@ export const Badge: React.FC<BadgeProps> = ({
   dot = false,
 }) => {
   const sizeClasses = {
-    sm: 'text-xs px-2 py-0.5',
-    md: 'text-xs font-medium px-2.5 py-1',
+    sm: 'text-[11px] px-2 py-0.5',
+    md: 'text-xs font-medium px-2.5 py-0.5',
   };
 
   const variantClasses = {
-    primary: 'bg-sky-50 text-sky-700 border-sky-200',
-    success: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    warning: 'bg-amber-50 text-amber-700 border-amber-200',
-    danger: 'bg-rose-50 text-rose-700 border-rose-200',
-    neutral: 'bg-slate-100 text-slate-700 border-slate-200',
-    purple: 'bg-purple-50 text-purple-700 border-purple-200',
+    primary: 'bg-[#e8edf5] text-[#204079] border-[#c8d7eb]',
+    success: 'bg-[#e8f5f0] text-[#1f6b4e] border-[#b8dfd0]',
+    warning: 'bg-[#fef3eb] text-[#c95908] border-[#fcd5b8]',
+    danger: 'bg-[#fcedea] text-[#ab2b1a] border-[#f7c2bb]',
+    neutral: 'bg-[#f0ebe1] text-[#17223a] border-[#dfdcd7]',
+    purple: 'bg-[#f0eaf8] text-[#5e3592] border-[#dcceef]',
   };
 
   const dotClasses = {
-    primary: 'bg-sky-500',
-    success: 'bg-emerald-500',
-    warning: 'bg-amber-500',
-    danger: 'bg-rose-500',
-    neutral: 'bg-slate-400',
-    purple: 'bg-purple-500',
+    primary: 'bg-[#204079]',
+    success: 'bg-[#1f6b4e]',
+    warning: 'bg-[#c95908]',
+    danger: 'bg-[#ab2b1a]',
+    neutral: 'bg-[#6c747f]',
+    purple: 'bg-[#5e3592]',
   };
 
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full border ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}
     >
-      {dot && <span className={`w-1.5 h-1.5 rounded-full ${dotClasses[variant]}`} />}
-      {children}
+      {dot && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotClasses[variant]}`} />}
+      <span>{children}</span>
     </span>
   );
 };

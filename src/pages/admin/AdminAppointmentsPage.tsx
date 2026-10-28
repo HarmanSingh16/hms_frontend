@@ -9,7 +9,7 @@ import {
   DoctorProfile,
 } from '../../types/api';
 import { formatTimeRange, formatDate } from '../../utils/date';
-import { getStatusBadgeClass, getStatusLabel } from '../../utils/formatters';
+import { getStatusBadgeClass, getStatusLabel, formatDoctorName } from '../../utils/formatters';
 import { Button } from '../../components/common/Button';
 import { Card } from '../../components/common/Card';
 import { HistoryModal } from '../../components/queue/HistoryModal';
@@ -115,8 +115,11 @@ export const AdminAppointmentsPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Hospital Master Monitor</h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <span className="eyebrow mb-1 block">Hospital Oversight</span>
+          <h1 className="font-serif text-3xl font-semibold text-[#17223a] tracking-tight">
+            Hospital Master Monitor
+          </h1>
+          <p className="text-xs sm:text-sm text-[#6c747f] mt-1 font-normal">
             Global oversight across all departments, clinical practitioners, and consultation lifecycles.
           </p>
         </div>
@@ -131,8 +134,8 @@ export const AdminAppointmentsPage: React.FC = () => {
       {/* Filters Card */}
       <Card>
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
-            <Filter className="w-3.5 h-3.5 text-sky-600" /> Filters:
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-[#17223a] uppercase tracking-wider">
+            <Filter className="w-3.5 h-3.5 text-[#204079]" /> Filters:
           </div>
 
           <select
@@ -141,7 +144,7 @@ export const AdminAppointmentsPage: React.FC = () => {
               setSelectedStatus(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:ring-2 focus:ring-sky-200"
+            className="px-3 py-1.5 bg-white/95 border border-[#dfdcd7] rounded-lg text-xs font-medium text-[#17223a] shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079]"
           >
             <option value="">All Statuses</option>
             <option value="booked">Booked</option>
@@ -158,7 +161,7 @@ export const AdminAppointmentsPage: React.FC = () => {
               setSelectedDocId('');
               setPage(1);
             }}
-            className="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:ring-2 focus:ring-sky-200"
+            className="px-3 py-1.5 bg-white/95 border border-[#dfdcd7] rounded-lg text-xs font-medium text-[#17223a] shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079]"
           >
             <option value="">All Departments</option>
             {departments.map((dept) => (
@@ -174,14 +177,14 @@ export const AdminAppointmentsPage: React.FC = () => {
               setSelectedDocId(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:ring-2 focus:ring-sky-200"
+            className="px-3 py-1.5 bg-white/95 border border-[#dfdcd7] rounded-lg text-xs font-medium text-[#17223a] shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079]"
           >
             <option value="">All Doctors</option>
             {doctors
               .filter((d) => !selectedDeptId || d.department_id === parseInt(selectedDeptId))
               .map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.email.split('@')[0]} ({d.department_name})
+                  {formatDoctorName(d.email)} ({d.department_name})
                 </option>
               ))}
           </select>
@@ -189,7 +192,7 @@ export const AdminAppointmentsPage: React.FC = () => {
       </Card>
 
       {error && (
-        <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+        <div className="p-3.5 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -198,18 +201,18 @@ export const AdminAppointmentsPage: React.FC = () => {
       {/* Master Table */}
       <Card>
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-16 text-slate-500">
-            <Loader2 className="w-8 h-8 animate-spin text-sky-600 mb-2" />
+          <div className="flex flex-col items-center justify-center py-16 text-[#6c747f]">
+            <Loader2 className="w-8 h-8 animate-spin text-[#204079] mb-2" />
             <p className="text-xs">Querying hospital appointment ledger...</p>
           </div>
         ) : appointments.length === 0 ? (
-          <div className="text-center py-12 text-slate-500 text-xs bg-slate-50 rounded-lg border border-dashed border-slate-200">
+          <div className="text-center py-12 text-[#6c747f] text-xs bg-[#faf6f0] rounded-xl border border-dashed border-[#dfdcd7]">
             No appointments found for the specified filters.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-600">
-              <thead className="bg-slate-50 text-slate-700 uppercase font-semibold text-[11px] tracking-wider border-y border-slate-200">
+            <table className="w-full text-left text-xs text-[#17223a]">
+              <thead className="bg-[#faf6f0] text-[#17223a] uppercase font-semibold text-[11px] tracking-wider border-y border-[#dfdcd7]">
                 <tr>
                   <th className="py-3 px-4">Date & Time</th>
                   <th className="py-3 px-4">Patient</th>
@@ -218,35 +221,35 @@ export const AdminAppointmentsPage: React.FC = () => {
                   <th className="py-3 px-4 text-right">Administrative Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[#dfdcd7]">
                 {appointments.map((appt) => (
-                  <tr key={appt.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3 px-4 whitespace-nowrap">
-                      <div className="font-semibold text-slate-800">{formatDate(appt.starts_at)}</div>
-                      <div className="text-[11px] text-slate-500">
+                  <tr key={appt.id} className="hover:bg-[#faf6f0]/80 transition-colors">
+                    <td className="py-3.5 px-4 whitespace-nowrap">
+                      <div className="font-semibold text-[#17223a]">{formatDate(appt.starts_at)}</div>
+                      <div className="text-[11px] font-serif tabular-nums text-[#6c747f]">
                         {formatTimeRange(appt.starts_at, appt.ends_at)}
                       </div>
                     </td>
 
-                    <td className="py-3 px-4 whitespace-nowrap">
-                      <div className="font-semibold text-slate-800">
+                    <td className="py-3.5 px-4 whitespace-nowrap">
+                      <div className="font-semibold text-[#17223a]">
                         {appt.patient_first_name} {appt.patient_last_name}
                       </div>
-                      <div className="text-[11px] text-slate-400">{appt.patient_email}</div>
+                      <div className="text-[11px] text-[#6c747f]">{appt.patient_email}</div>
                     </td>
 
-                    <td className="py-3 px-4 whitespace-nowrap">
-                      <div className="flex items-center gap-1.5 font-medium text-slate-800">
-                        <Stethoscope className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{appt.doctor_email.split('@')[0]}</span>
+                    <td className="py-3.5 px-4 whitespace-nowrap">
+                      <div className="flex items-center gap-1.5 font-medium text-[#17223a]">
+                        <Stethoscope className="w-3.5 h-3.5 text-[#204079]" />
+                        <span>{formatDoctorName(appt.doctor_email)}</span>
                       </div>
-                      <div className="flex items-center gap-1 text-[11px] text-slate-500">
-                        <Building2 className="w-3 h-3 text-slate-400" />
+                      <div className="flex items-center gap-1 text-[11px] text-[#6c747f]">
+                        <Building2 className="w-3 h-3 text-[#6c747f]" />
                         <span>{appt.department_name || 'General'}</span>
                       </div>
                     </td>
 
-                    <td className="py-3 px-4 whitespace-nowrap">
+                    <td className="py-3.5 px-4 whitespace-nowrap">
                       <span
                         className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${getStatusBadgeClass(
                           appt.status
@@ -256,7 +259,7 @@ export const AdminAppointmentsPage: React.FC = () => {
                       </span>
                     </td>
 
-                    <td className="py-3 px-4 text-right whitespace-nowrap space-x-1">
+                    <td className="py-3.5 px-4 text-right whitespace-nowrap space-x-1">
                       {appt.status === 'booked' && (
                         <Button size="sm" variant="outline" onClick={() => handleCheckIn(appt.id)}>
                           Check In
@@ -266,9 +269,9 @@ export const AdminAppointmentsPage: React.FC = () => {
                       {appt.status === 'checked_in' && (
                         <Button
                           size="sm"
-                          variant="primary"
+                          variant="secondary"
                           onClick={() => handleComplete(appt.id)}
-                          className="bg-emerald-600 hover:bg-emerald-700"
+                          className="hover:border-[#1f6b4e]/40"
                         >
                           Complete
                         </Button>
@@ -289,7 +292,7 @@ export const AdminAppointmentsPage: React.FC = () => {
                           size="sm"
                           variant="outline"
                           onClick={() => setCancelTarget(appt)}
-                          leftIcon={<Ban className="w-3 h-3 text-rose-500" />}
+                          leftIcon={<Ban className="w-3 h-3 text-[#ab2b1a]" />}
                         >
                           Cancel
                         </Button>
@@ -299,7 +302,7 @@ export const AdminAppointmentsPage: React.FC = () => {
                         size="sm"
                         variant="ghost"
                         onClick={() => setHistoryApptId(appt.id)}
-                        leftIcon={<History className="w-3.5 h-3.5 text-slate-400" />}
+                        leftIcon={<History className="w-3.5 h-3.5 text-[#6c747f]" />}
                       >
                         History
                       </Button>
@@ -312,8 +315,11 @@ export const AdminAppointmentsPage: React.FC = () => {
         )}
 
         {totalCount > 20 && (
-          <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <span>Showing page {page} of {Math.ceil(totalCount / 20)} ({totalCount} total)</span>
+          <div className="mt-4 pt-3 border-t border-[#dfdcd7] flex items-center justify-between text-xs text-[#6c747f]">
+            <span>
+              Showing page <strong className="text-[#17223a] font-serif tabular-nums">{page}</strong> of{' '}
+              <strong className="text-[#17223a] font-serif tabular-nums">{Math.ceil(totalCount / 20)}</strong> ({totalCount} total)
+            </span>
             <div className="space-x-2">
               <Button
                 variant="outline"

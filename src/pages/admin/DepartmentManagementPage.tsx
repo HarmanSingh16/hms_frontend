@@ -95,14 +95,17 @@ export const DepartmentManagementPage: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Clinical Departments</h1>
-        <p className="text-xs text-slate-500 mt-1">
+        <span className="eyebrow mb-1 block">Hospital Administration</span>
+        <h1 className="font-serif text-3xl font-semibold text-[#17223a] tracking-tight">
+          Clinical Departments
+        </h1>
+        <p className="text-xs sm:text-sm text-[#6c747f] mt-1 font-normal">
           Configure hospital departments, specialties, and clinical units.
         </p>
       </div>
 
       {error && (
-        <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+        <div className="p-3.5 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -112,7 +115,7 @@ export const DepartmentManagementPage: React.FC = () => {
       <Card title="Add Clinical Department">
         <form onSubmit={handleCreate} className="space-y-3">
           {createError && (
-            <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+            <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{createError}</span>
             </div>
@@ -121,7 +124,7 @@ export const DepartmentManagementPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="flex-1">
               <Input
-                placeholder="e.g. Dermatology, Endocrinology, Radiology"
+                placeholder="e.g. Cardiology, Orthopedics, Pediatrics, Neurology"
                 value={newDeptName}
                 onChange={(e) => setNewDeptName(e.target.value)}
                 required
@@ -143,26 +146,26 @@ export const DepartmentManagementPage: React.FC = () => {
       {/* Departments Table */}
       <Card title={`Active Departments (${departments.length})`}>
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-12 text-slate-500">
-            <Loader2 className="w-6 h-6 animate-spin text-sky-600 mb-2" />
+          <div className="flex flex-col items-center justify-center py-12 text-[#6c747f]">
+            <Loader2 className="w-6 h-6 animate-spin text-[#204079] mb-2" />
             <p className="text-xs">Loading department registry...</p>
           </div>
         ) : departments.length === 0 ? (
-          <p className="text-xs text-slate-500 text-center py-8">No departments defined.</p>
+          <p className="text-xs text-[#6c747f] text-center py-8">No departments defined.</p>
         ) : (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-[#dfdcd7]">
             {departments.map((dept) => (
               <div
                 key={dept.id}
-                className="py-3 px-2 flex items-center justify-between hover:bg-slate-50 rounded-lg transition-colors"
+                className="py-3 px-2 flex items-center justify-between hover:bg-[#faf6f0] rounded-lg transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
-                    <Building2 className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-[#e8edf5] text-[#204079] flex items-center justify-center">
+                    <Building2 className="w-4 h-4 text-[#204079]" />
                   </div>
                   <div>
-                    <span className="font-semibold text-slate-800 text-sm">{dept.name}</span>
-                    <span className="text-[11px] text-slate-400 font-mono ml-2">ID #{dept.id}</span>
+                    <span className="font-semibold text-[#17223a] text-sm">{dept.name}</span>
+                    <span className="text-[11px] text-[#6c747f] font-mono ml-2">ID #{dept.id}</span>
                   </div>
                 </div>
 
@@ -204,7 +207,7 @@ export const DepartmentManagementPage: React.FC = () => {
       >
         <form onSubmit={handleUpdate} className="space-y-4">
           {updateError && (
-            <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+            <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{updateError}</span>
             </div>

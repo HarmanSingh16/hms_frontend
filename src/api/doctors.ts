@@ -15,9 +15,10 @@ export const doctorsApi = {
   list: async (departmentId?: number): Promise<DoctorProfile[]> => {
     const params = new URLSearchParams();
     if (departmentId) params.append('department_id', departmentId.toString());
+    const query = params.toString();
 
     const res = await apiClient.get<APIResponse<DoctorProfile[]>>(
-      `/doctors?${params.toString()}`
+      query ? `/doctors?${query}` : '/doctors'
     );
     if (!res.data.success || !res.data.data) {
       throw new Error(res.data.error?.message || 'Failed to list doctors');

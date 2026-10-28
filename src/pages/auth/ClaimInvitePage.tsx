@@ -87,26 +87,27 @@ export const ClaimInvitePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-sky-50/40 to-slate-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f4ed] via-[#f3ede1] to-[#eae0cf] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-600 to-cyan-500 text-white shadow-lg mb-4">
-          <Activity className="w-8 h-8" />
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#204079] text-[#faf6f0] shadow-md border border-[#1b3769] mb-4">
+          <Activity className="w-7 h-7 text-[#faf6f0]" />
         </div>
-        <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          Activate Your Account
-        </h2>
-        <p className="mt-2 text-sm text-slate-600">
-          Set up your credentials to access HealthPulse HMS
+        <div className="eyebrow mb-1">Cornerstone Healthcare Systems</div>
+        <h1 className="font-serif text-3xl font-semibold text-[#17223a] tracking-tight">
+          Activate Your Credentials
+        </h1>
+        <p className="mt-1.5 text-sm text-[#6c747f]">
+          Secure onboarding for verified healthcare personnel
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-slate-200/80">
+        <div className="bg-white/95 backdrop-blur-xs py-8 px-6 shadow-xl sm:rounded-2xl sm:px-10 border border-[#dfdcd7]">
           {/* Demo Tokens Quick Selection */}
-          <div className="mb-6 p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 mb-2">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>Test Pre-Seeded Invite Tokens:</span>
+          <div className="mb-6 p-3.5 bg-[#f0ebe1]/80 border border-[#dfdcd7] rounded-xl">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#17223a] mb-2 uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--accent-gap)]" />
+              <span>Test Pre-Seeded Tokens:</span>
             </div>
             <div className="flex flex-col gap-1.5">
               {DEMO_INVITE_TOKENS.map((t) => (
@@ -114,10 +115,10 @@ export const ClaimInvitePage: React.FC = () => {
                   key={t.token}
                   type="button"
                   onClick={() => handleApplyToken(t.token)}
-                  className="px-2.5 py-1.5 text-left text-xs bg-white hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 border border-slate-200 rounded-lg transition-colors font-medium text-slate-700 flex items-center justify-between"
+                  className="px-2.5 py-1.5 text-left text-xs bg-white hover:bg-[#faf6f0] hover:border-[#204079]/50 border border-[#dfdcd7] rounded-lg transition-colors font-medium text-[#17223a] flex items-center justify-between cursor-pointer"
                 >
                   <span>{t.label}</span>
-                  <span className="text-[10px] text-slate-400 font-mono">Use Token &rarr;</span>
+                  <span className="text-[10px] text-[#204079] font-semibold font-mono">Use Token &rarr;</span>
                 </button>
               ))}
             </div>
@@ -125,12 +126,12 @@ export const ClaimInvitePage: React.FC = () => {
 
           {isSuccess ? (
             <div className="text-center py-6 space-y-3">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-[#e8f5f0] text-[#1f6b4e] mx-auto flex items-center justify-center border border-[#b8dfd0]">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-slate-800">Account Activated!</h3>
-              <p className="text-xs text-slate-600">
-                Your password has been established. Redirecting to login...
+              <h3 className="text-xl font-serif font-semibold text-[#17223a]">Account Activated!</h3>
+              <p className="text-xs text-[#6c747f]">
+                Your password has been successfully established. Redirecting to login...
               </p>
             </div>
           ) : (
@@ -156,32 +157,32 @@ export const ClaimInvitePage: React.FC = () => {
               )}
 
               {isVerifying && (
-                <div className="flex items-center justify-center py-4 text-xs text-slate-500 gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-sky-600" />
+                <div className="flex items-center justify-center py-4 text-xs text-[#6c747f] gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin text-[#204079]" />
                   Verifying invite validity...
                 </div>
               )}
 
               {verifyError && (
-                <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+                <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-lg text-[#ab2b1a] text-xs flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{verifyError}</span>
                 </div>
               )}
 
               {inviteData && (
-                <form onSubmit={handleClaim} className="space-y-4 pt-2 border-t border-slate-100">
-                  <div className="p-3 bg-sky-50 border border-sky-200 rounded-lg">
-                    <p className="text-xs text-sky-900 font-medium">
-                      Activating account for: <strong>{inviteData.email}</strong>
+                <form onSubmit={handleClaim} className="space-y-4 pt-2 border-t border-[#dfdcd7]">
+                  <div className="p-3.5 bg-[#f0ebe1]/70 border border-[#dfdcd7] rounded-lg">
+                    <p className="text-xs text-[#17223a] font-semibold">
+                      Activating account for: <span className="text-[#204079]">{inviteData.email}</span>
                     </p>
-                    <p className="text-[11px] text-sky-700 capitalize mt-0.5">
-                      Role assigned: {inviteData.role}
+                    <p className="text-[11px] text-[#6c747f] capitalize mt-0.5 font-medium">
+                      Role assigned: <strong className="text-[#17223a]">{inviteData.role}</strong>
                     </p>
                   </div>
 
                   {submitError && (
-                    <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+                    <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-lg text-[#ab2b1a] text-xs flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 shrink-0" />
                       <span>{submitError}</span>
                     </div>
@@ -215,8 +216,8 @@ export const ClaimInvitePage: React.FC = () => {
             </div>
           )}
 
-          <div className="mt-6 border-t border-slate-100 pt-4 text-center">
-            <Link to="/login" className="text-xs text-sky-600 hover:text-sky-800 font-medium">
+          <div className="mt-6 border-t border-[#dfdcd7] pt-4 text-center">
+            <Link to="/login" className="text-xs text-[#204079] hover:text-[#18315c] font-medium">
               &larr; Back to Sign In
             </Link>
           </div>

@@ -13,6 +13,7 @@ import {
   AppointmentDetailResponse,
 } from '../../types/api';
 import { getNext7Days, formatTime } from '../../utils/date';
+import { formatDoctorName } from '../../utils/formatters';
 import {
   User,
   Stethoscope,
@@ -172,7 +173,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Schedule 15-Minute Appointment"
+      title="Schedule 15-Minute Consultation"
       maxWidth="xl"
       footer={
         <div className="flex items-center justify-between w-full">
@@ -214,26 +215,26 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       }
     >
       {/* Steps Header */}
-      <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-5 text-xs font-medium">
-        <span className={step === 1 ? 'text-sky-600 font-bold' : 'text-slate-400'}>
+      <div className="flex items-center justify-between border-b border-[#dfdcd7] pb-3 mb-5 text-xs font-medium">
+        <span className={step === 1 ? 'text-[#204079] font-bold' : 'text-[#6c747f]'}>
           1. Patient
         </span>
-        <span className="text-slate-300">/</span>
-        <span className={step === 2 ? 'text-sky-600 font-bold' : 'text-slate-400'}>
+        <span className="text-[#cac4bb]">/</span>
+        <span className={step === 2 ? 'text-[#204079] font-bold' : 'text-[#6c747f]'}>
           2. Doctor
         </span>
-        <span className="text-slate-300">/</span>
-        <span className={step === 3 ? 'text-sky-600 font-bold' : 'text-slate-400'}>
+        <span className="text-[#cac4bb]">/</span>
+        <span className={step === 3 ? 'text-[#204079] font-bold' : 'text-[#6c747f]'}>
           3. Slot
         </span>
-        <span className="text-slate-300">/</span>
-        <span className={step === 4 ? 'text-sky-600 font-bold' : 'text-slate-400'}>
+        <span className="text-[#cac4bb]">/</span>
+        <span className={step === 4 ? 'text-[#204079] font-bold' : 'text-[#6c747f]'}>
           4. Confirm
         </span>
       </div>
 
       {submissionError && (
-        <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+        <div className="mb-4 p-3.5 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{submissionError}</span>
         </div>
@@ -242,33 +243,33 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       {/* STEP 1: PATIENT SELECTION */}
       {step === 1 && (
         <div className="space-y-4">
-          <h4 className="text-sm font-semibold text-slate-800">Select Patient for Booking</h4>
+          <h4 className="text-sm font-semibold text-[#17223a]">Select Patient for Booking</h4>
           <div className="relative">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-[#6c747f]" />
             <input
               type="text"
               placeholder="Search patient by name or phone..."
               value={patientSearchQuery}
               onChange={(e) => setPatientSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500"
+              className="w-full pl-9 pr-4 py-2 border border-[#dfdcd7] rounded-lg text-sm bg-white/95 text-[#17223a] focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079]"
             />
           </div>
 
           {selectedPatient && (
-            <div className="p-3 bg-sky-50 border border-sky-200 rounded-lg flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-sky-600" />
+            <div className="p-3.5 bg-[#e8edf5] border border-[#c8d7eb] rounded-xl flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-[#204079]" />
                 <div>
-                  <p className="text-sm font-semibold text-sky-900">
+                  <p className="text-sm font-semibold text-[#17223a]">
                     {selectedPatient.first_name} {selectedPatient.last_name}
                   </p>
-                  <p className="text-xs text-sky-700">{selectedPatient.phone_number} • {selectedPatient.email}</p>
+                  <p className="text-xs text-[#6c747f]">{selectedPatient.phone_number} • {selectedPatient.email}</p>
                 </div>
               </div>
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-xs text-sky-700"
+                className="text-xs text-[#204079]"
                 onClick={() => setSelectedPatient(null)}
               >
                 Change
@@ -277,27 +278,27 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
           )}
 
           {isSearchingPatients && (
-            <div className="flex items-center justify-center py-4 text-xs text-slate-500 gap-2">
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            <div className="flex items-center justify-center py-4 text-xs text-[#6c747f] gap-2">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#204079]" />
               Searching directory...
             </div>
           )}
 
           {!selectedPatient && patientSearchResults.length > 0 && (
-            <div className="border border-slate-200 rounded-lg divide-y divide-slate-100 max-h-48 overflow-y-auto">
+            <div className="border border-[#dfdcd7] rounded-xl divide-y divide-[#dfdcd7] max-h-48 overflow-y-auto bg-white">
               {patientSearchResults.map((p) => (
                 <div
                   key={p.account_id}
                   onClick={() => setSelectedPatient(p)}
-                  className="p-2.5 hover:bg-slate-50 cursor-pointer flex items-center justify-between text-xs"
+                  className="p-2.5 hover:bg-[#faf6f0] cursor-pointer flex items-center justify-between text-xs"
                 >
                   <div>
-                    <span className="font-medium text-slate-800">
+                    <span className="font-medium text-[#17223a]">
                       {p.first_name} {p.last_name}
                     </span>
-                    <span className="text-slate-500 ml-2">({p.phone_number})</span>
+                    <span className="text-[#6c747f] ml-2">({p.phone_number})</span>
                   </div>
-                  <span className="text-sky-600 hover:underline">Select</span>
+                  <span className="text-[#204079] font-medium hover:underline">Select</span>
                 </div>
               ))}
             </div>
@@ -309,7 +310,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       {step === 2 && (
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-2">
               Department
             </label>
             <div className="flex gap-2 flex-wrap">
@@ -318,10 +319,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   key={dept.id}
                   type="button"
                   onClick={() => setSelectedDeptId(dept.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
                     selectedDeptId === dept.id
-                      ? 'bg-sky-600 text-white border-sky-600 shadow-sm'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                      ? 'bg-[#204079] text-[#faf6f0] border-[#1b3769] shadow-xs'
+                      : 'bg-white text-[#17223a] border-[#dfdcd7] hover:bg-[#faf6f0]'
                   }`}
                 >
                   {dept.name}
@@ -331,35 +332,35 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-2">
               Choose Doctor
             </label>
             {isLoadingDoctors ? (
-              <div className="flex items-center gap-2 text-xs text-slate-500 py-4">
-                <Loader2 className="w-4 h-4 animate-spin text-sky-600" />
+              <div className="flex items-center gap-2 text-xs text-[#6c747f] py-4">
+                <Loader2 className="w-4 h-4 animate-spin text-[#204079]" />
                 Loading doctors...
               </div>
             ) : doctors.length === 0 ? (
-              <p className="text-xs text-slate-500 py-3">No active doctors found in this department.</p>
+              <p className="text-xs text-[#6c747f] py-3">No active doctors found in this department.</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {doctors.map((doc) => (
                   <div
                     key={doc.id}
                     onClick={() => setSelectedDoctor(doc)}
-                    className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between ${
+                    className={`p-3 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                       selectedDoctor?.id === doc.id
-                        ? 'border-sky-500 bg-sky-50/60 ring-1 ring-sky-500'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                        ? 'border-[#204079] bg-[#e8edf5]/80 ring-1 ring-[#204079]'
+                        : 'border-[#dfdcd7] hover:border-[#cac4bb] bg-white'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs">
+                      <div className="w-8 h-8 rounded-full bg-[#e8edf5] text-[#204079] flex items-center justify-center font-bold text-xs">
                         Dr
                       </div>
                       <div>
-                        <p className="text-xs font-semibold text-slate-800">{doc.email.split('@')[0]}</p>
-                        <p className="text-[11px] text-slate-500">{doc.department_name}</p>
+                        <p className="text-xs font-semibold text-[#17223a]">{formatDoctorName(doc.email)}</p>
+                        <p className="text-[11px] text-[#6c747f]">{doc.department_name}</p>
                       </div>
                     </div>
                   </div>
@@ -374,7 +375,7 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       {step === 3 && (
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-2">
               Upcoming 7-Day Window
             </label>
             <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
@@ -383,10 +384,10 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                   key={d.dateString}
                   type="button"
                   onClick={() => setSelectedDate(d.dateString)}
-                  className={`p-2 rounded-lg text-center border transition-all ${
+                  className={`p-2 rounded-xl text-center border transition-all cursor-pointer ${
                     selectedDate === d.dateString
-                      ? 'bg-sky-600 text-white border-sky-600 shadow-sm'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                      ? 'bg-[#204079] text-[#faf6f0] border-[#1b3769] shadow-xs'
+                      : 'bg-white text-[#17223a] border-[#dfdcd7] hover:bg-[#faf6f0]'
                   }`}
                 >
                   <div className="text-[10px] uppercase font-semibold">{d.dayName}</div>
@@ -398,26 +399,26 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
 
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+              <label className="text-xs font-semibold text-[#17223a] uppercase tracking-wider">
                 Available 15-Minute Slots
               </label>
-              <div className="flex items-center gap-3 text-[11px] text-slate-500">
+              <div className="flex items-center gap-3 text-[11px] text-[#6c747f]">
                 <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" /> Regular
+                  <span className="w-2 h-2 rounded-full bg-[var(--accent-ok)]" /> Regular
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-purple-500" /> Walk-In Eligible
+                  <span className="w-2 h-2 rounded-full bg-[#5e3592]" /> Walk-In
                 </span>
               </div>
             </div>
 
             {isLoadingSlots ? (
-              <div className="flex items-center justify-center py-10 gap-2 text-xs text-slate-500">
-                <Loader2 className="w-4 h-4 animate-spin text-sky-600" />
+              <div className="flex items-center justify-center py-10 gap-2 text-xs text-[#6c747f]">
+                <Loader2 className="w-4 h-4 animate-spin text-[#204079]" />
                 Computing real-time slots...
               </div>
             ) : slots.length === 0 ? (
-              <div className="text-center py-8 bg-slate-50 border border-dashed border-slate-200 rounded-lg text-slate-500 text-xs">
+              <div className="text-center py-8 bg-[#faf6f0] border border-dashed border-[#dfdcd7] rounded-xl text-[#6c747f] text-xs">
                 No slots available on this date. Doctor may be off or fully booked.
               </div>
             ) : (
@@ -429,16 +430,16 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
                       key={slot.starts_at}
                       type="button"
                       onClick={() => setSelectedSlot(slot)}
-                      className={`relative p-2 rounded-lg text-xs font-medium border text-center transition-all ${
+                      className={`relative p-2 rounded-lg text-xs font-serif font-semibold tabular-nums border text-center transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-sky-600 text-white border-sky-600 shadow-md ring-2 ring-sky-300'
+                          ? 'bg-[#204079] text-[#faf6f0] border-[#1b3769] shadow-xs ring-2 ring-[#204079]/30'
                           : slot.is_walk_in_eligible
-                          ? 'bg-purple-50 text-purple-900 border-purple-300 hover:bg-purple-100'
-                          : 'bg-white text-slate-800 border-emerald-300 hover:bg-emerald-50/50'
+                          ? 'bg-[#f0eaf8] text-[#5e3592] border-[#dcceef] hover:bg-[#e6daf5]'
+                          : 'bg-white text-[#17223a] border-[#dfdcd7] hover:border-[#1f6b4e] hover:bg-[#e8f5f0]'
                       }`}
                     >
                       {slot.is_walk_in_eligible && (
-                        <span className="absolute -top-1.5 -right-1 px-1 py-0.2 bg-purple-600 text-white text-[9px] rounded-full font-bold flex items-center gap-0.5 shadow-sm">
+                        <span className="absolute -top-1.5 -right-1 px-1 py-0.2 bg-[#5e3592] text-white text-[9px] rounded-full font-bold flex items-center gap-0.5 shadow-2xs">
                           <Zap className="w-2.5 h-2.5" /> Walk-in
                         </span>
                       )}
@@ -455,52 +456,52 @@ export const BookingWizardModal: React.FC<BookingWizardModalProps> = ({
       {/* STEP 4: REVIEW & CONFIRM */}
       {step === 4 && selectedPatient && selectedDoctor && selectedSlot && (
         <div className="space-y-4">
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-            <h4 className="text-sm font-semibold text-slate-800">Booking Summary</h4>
+          <div className="bg-[#f0ebe1]/70 border border-[#dfdcd7] rounded-xl p-4 space-y-3">
+            <h4 className="text-sm font-semibold text-[#17223a]">Consultation Summary</h4>
 
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="space-y-1">
-                <span className="text-slate-500 flex items-center gap-1">
-                  <User className="w-3.5 h-3.5" /> Patient:
+                <span className="text-[#6c747f] flex items-center gap-1 text-[11px] uppercase tracking-wider">
+                  <User className="w-3.5 h-3.5 text-[#204079]" /> Patient:
                 </span>
-                <p className="font-semibold text-slate-800">
+                <p className="font-semibold text-[#17223a]">
                   {selectedPatient.first_name} {selectedPatient.last_name}
                 </p>
-                <p className="text-slate-500">{selectedPatient.phone_number}</p>
+                <p className="text-[#6c747f]">{selectedPatient.phone_number}</p>
               </div>
 
               <div className="space-y-1">
-                <span className="text-slate-500 flex items-center gap-1">
-                  <Stethoscope className="w-3.5 h-3.5" /> Doctor:
+                <span className="text-[#6c747f] flex items-center gap-1 text-[11px] uppercase tracking-wider">
+                  <Stethoscope className="w-3.5 h-3.5 text-[#204079]" /> Doctor:
                 </span>
-                <p className="font-semibold text-slate-800">
-                  {selectedDoctor.email.split('@')[0]}
+                <p className="font-semibold text-[#17223a]">
+                  {formatDoctorName(selectedDoctor.email)}
                 </p>
-                <p className="text-slate-500 flex items-center gap-1">
+                <p className="text-[#6c747f] flex items-center gap-1">
                   <Building2 className="w-3 h-3" /> {selectedDoctor.department_name}
                 </p>
               </div>
 
               <div className="space-y-1">
-                <span className="text-slate-500 flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5" /> Date:
+                <span className="text-[#6c747f] flex items-center gap-1 text-[11px] uppercase tracking-wider">
+                  <Calendar className="w-3.5 h-3.5 text-[#204079]" /> Date:
                 </span>
-                <p className="font-semibold text-slate-800">{selectedDate}</p>
+                <p className="font-semibold text-[#17223a]">{selectedDate}</p>
               </div>
 
               <div className="space-y-1">
-                <span className="text-slate-500 flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" /> Time:
+                <span className="text-[#6c747f] flex items-center gap-1 text-[11px] uppercase tracking-wider">
+                  <Clock className="w-3.5 h-3.5 text-[#204079]" /> Time:
                 </span>
-                <p className="font-semibold text-slate-800">
+                <p className="font-serif font-semibold tabular-nums text-[#17223a]">
                   {formatTime(selectedSlot.starts_at)} (15 mins)
                 </p>
               </div>
             </div>
 
             {selectedSlot.is_walk_in_eligible && (
-              <div className="p-2.5 bg-purple-50 border border-purple-200 rounded-lg text-purple-900 text-xs flex items-center gap-2">
-                <Zap className="w-4 h-4 text-purple-600 shrink-0" />
+              <div className="p-3 bg-[#f0eaf8] border border-[#dcceef] rounded-xl text-[#5e3592] text-xs flex items-center gap-2">
+                <Zap className="w-4 h-4 text-[#5e3592] shrink-0" />
                 <span>
                   <strong>Immediate Walk-In:</strong> Because this slot is currently ongoing, booking it
                   will automatically mark the patient as <strong>Checked-In</strong> and place them

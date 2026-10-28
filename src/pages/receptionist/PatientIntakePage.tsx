@@ -91,8 +91,11 @@ export const PatientIntakePage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Patient Intake</h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <span className="eyebrow mb-1 block">Front Desk Operations</span>
+          <h1 className="font-serif text-3xl font-semibold text-[#17223a] tracking-tight">
+            Patient Intake
+          </h1>
+          <p className="text-xs sm:text-sm text-[#6c747f] mt-1 font-normal">
             Register a new patient profile. Generates a 48h account activation invite automatically.
           </p>
         </div>
@@ -102,7 +105,7 @@ export const PatientIntakePage: React.FC = () => {
           variant="secondary"
           size="sm"
           onClick={handleFillSample}
-          leftIcon={<Sparkles className="w-3.5 h-3.5 text-amber-500" />}
+          leftIcon={<Sparkles className="w-3.5 h-3.5 text-[var(--accent-gap)]" />}
         >
           Fill Sample Patient
         </Button>
@@ -110,56 +113,56 @@ export const PatientIntakePage: React.FC = () => {
 
       {/* Success Card */}
       {registeredPatient && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 space-y-3">
-          <div className="flex items-center gap-2 text-emerald-800 font-semibold text-sm">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-            <span>Patient Intake Completed Successfully!</span>
+        <div className="bg-[#e8f5f0] border border-[#b8dfd0] rounded-xl p-5 space-y-3">
+          <div className="flex items-center gap-2 text-[#1f6b4e] font-semibold text-sm">
+            <CheckCircle2 className="w-5 h-5 text-[#1f6b4e]" />
+            <span className="font-serif text-base">Patient Intake Completed Successfully!</span>
           </div>
 
-          <div className="bg-white p-4 rounded-lg border border-emerald-100 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+          <div className="bg-white/90 p-4 rounded-lg border border-[#b8dfd0] grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
             <div>
-              <span className="text-slate-400">Full Name</span>
-              <p className="font-semibold text-slate-800">
+              <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Full Name</span>
+              <p className="font-semibold text-[#17223a] mt-0.5">
                 {registeredPatient.first_name} {registeredPatient.last_name}
               </p>
             </div>
             <div>
-              <span className="text-slate-400">Account ID</span>
-              <p className="font-semibold text-slate-800">#{registeredPatient.account_id}</p>
+              <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Account ID</span>
+              <p className="font-serif font-semibold text-[#204079] mt-0.5">#{registeredPatient.account_id}</p>
             </div>
             <div>
-              <span className="text-slate-400">Status</span>
-              <p className="font-semibold text-purple-600 capitalize">{registeredPatient.status}</p>
+              <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Status</span>
+              <p className="font-semibold text-[#5e3592] capitalize mt-0.5">{registeredPatient.status}</p>
             </div>
             <div>
-              <span className="text-slate-400 flex items-center gap-1">
-                <Mail className="w-3 h-3" /> Email
+              <span className="text-[#6c747f] text-[11px] uppercase tracking-wider flex items-center gap-1">
+                <Mail className="w-3 h-3 text-[#6c747f]" /> Email
               </span>
-              <p className="font-medium text-slate-700">{registeredPatient.email}</p>
+              <p className="font-medium text-[#17223a] mt-0.5">{registeredPatient.email}</p>
             </div>
             <div>
-              <span className="text-slate-400 flex items-center gap-1">
-                <Phone className="w-3 h-3" /> Phone
+              <span className="text-[#6c747f] text-[11px] uppercase tracking-wider flex items-center gap-1">
+                <Phone className="w-3 h-3 text-[#6c747f]" /> Phone
               </span>
-              <p className="font-medium text-slate-700">{registeredPatient.phone_number}</p>
+              <p className="font-medium text-[#17223a] mt-0.5">{registeredPatient.phone_number}</p>
             </div>
             <div>
-              <span className="text-slate-400 flex items-center gap-1">
-                <Calendar className="w-3 h-3" /> Date of Birth
+              <span className="text-[#6c747f] text-[11px] uppercase tracking-wider flex items-center gap-1">
+                <Calendar className="w-3 h-3 text-[#6c747f]" /> Date of Birth
               </span>
-              <p className="font-medium text-slate-700">{registeredPatient.date_of_birth}</p>
+              <p className="font-medium text-[#17223a] mt-0.5">{registeredPatient.date_of_birth}</p>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            <p className="text-xs text-emerald-700">
+            <p className="text-xs text-[#1f6b4e] font-medium">
               Account activation link dispatched to patient email.
             </p>
             <Button
               size="sm"
               onClick={() => setIsBookingOpen(true)}
               leftIcon={<Calendar className="w-3.5 h-3.5" />}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-[#204079] text-[#faf6f0]"
             >
               Book Appointment Now
             </Button>
@@ -171,7 +174,7 @@ export const PatientIntakePage: React.FC = () => {
       <Card title="Demographic Information" subtitle="All fields marked with * are required">
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+            <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -228,11 +231,11 @@ export const PatientIntakePage: React.FC = () => {
             />
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Gender</label>
+              <label className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-1.5">Gender</label>
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500"
+                className="w-full px-3.5 py-2 bg-white/95 border border-[#dfdcd7] rounded-lg text-[#17223a] text-sm shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079]"
               >
                 <option value="Female">Female</option>
                 <option value="Male">Male</option>
@@ -243,7 +246,7 @@ export const PatientIntakePage: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-1.5">
               Residential Address
             </label>
             <textarea
@@ -251,7 +254,7 @@ export const PatientIntakePage: React.FC = () => {
               onChange={(e) => setAddress(e.target.value)}
               placeholder="456 Oak Avenue, Apt 2B, Springfield"
               rows={2}
-              className="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500 resize-none"
+              className="w-full px-3.5 py-2 bg-white/95 border border-[#dfdcd7] rounded-lg text-[#17223a] text-sm shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079] resize-none"
             />
           </div>
 

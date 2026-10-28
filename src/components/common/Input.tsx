@@ -19,25 +19,25 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={inputId} className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor={inputId} className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-1.5">
           {label}
         </label>
       )}
       <input
         id={inputId}
-        className={`w-full px-3.5 py-2 bg-white border rounded-lg text-slate-900 text-sm shadow-sm transition-colors
-          focus:outline-none focus:ring-2 focus:ring-offset-0
+        className={`w-full px-3.5 py-2 bg-white/95 border rounded-lg text-[#17223a] text-sm shadow-2xs transition-all duration-150
+          focus:outline-none focus:ring-2 focus:ring-offset-0 placeholder:text-[#9e9689]
           ${
             error
-              ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-200'
-              : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+              ? 'border-[#f7c2bb] focus:border-[#ab2b1a] focus:ring-rose-200'
+              : 'border-[#dfdcd7] focus:border-[#204079] focus:ring-[#204079]/20 hover:border-[#cac4bb]'
           }
-          disabled:bg-slate-50 disabled:text-slate-500 disabled:cursor-not-allowed
+          disabled:bg-[#f0ebe1]/60 disabled:text-[#6c747f] disabled:cursor-not-allowed
           ${className}`}
         {...props}
       />
-      {error && <p className="mt-1 text-xs text-rose-600 font-medium">{error}</p>}
-      {!error && helperText && <p className="mt-1 text-xs text-slate-500">{helperText}</p>}
+      {error && <p className="mt-1 text-xs text-[#ab2b1a] font-medium">{error}</p>}
+      {!error && helperText && <p className="mt-1 text-xs text-[#6c747f]">{helperText}</p>}
     </div>
   );
 };

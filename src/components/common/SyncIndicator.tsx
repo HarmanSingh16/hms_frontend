@@ -32,15 +32,15 @@ export const SyncIndicator: React.FC<SyncIndicatorProps> = ({
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-slate-500 font-medium">
-        Synced: <span className="text-slate-700">{getTimeAgoText()}</span>
+      <span className="text-xs text-[#6c747f] font-medium">
+        Synced: <span className="text-[#17223a] font-semibold">{getTimeAgoText()}</span>
       </span>
       <Button
         variant="outline"
         size="sm"
         onClick={onRefresh}
         isLoading={isLoading}
-        leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />}
+        leftIcon={<RefreshCw className={`w-3.5 h-3.5 text-[#204079] ${isLoading ? 'animate-spin' : ''}`} />}
       >
         Refresh
       </Button>

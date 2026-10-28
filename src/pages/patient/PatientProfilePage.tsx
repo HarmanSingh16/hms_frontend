@@ -76,58 +76,61 @@ export const PatientProfilePage: React.FC = () => {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">My Profile</h1>
-        <p className="text-xs text-slate-500 mt-1">
+        <span className="eyebrow mb-1 block">Patient Portal</span>
+        <h1 className="font-serif text-3xl font-semibold text-[#17223a] tracking-tight">
+          My Profile
+        </h1>
+        <p className="text-xs sm:text-sm text-[#6c747f] mt-1 font-normal">
           Review your demographic record and maintain up-to-date contact information.
         </p>
       </div>
 
       {saveSuccess && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-3.5 bg-[#e8f5f0] border border-[#b8dfd0] rounded-xl text-[#1f6b4e] text-xs flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-[#1f6b4e] shrink-0" />
           <span>Contact information saved successfully.</span>
         </div>
       )}
 
       {error && (
-        <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+        <div className="p-3.5 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-          <Loader2 className="w-8 h-8 animate-spin text-sky-600 mb-2" />
+        <div className="flex flex-col items-center justify-center py-20 text-[#6c747f]">
+          <Loader2 className="w-8 h-8 animate-spin text-[#204079] mb-2" />
           <p className="text-xs">Loading profile...</p>
         </div>
       ) : profile ? (
-        <Card title="Demographic Information">
+        <Card title="Demographic Record">
           <form onSubmit={handleSave} className="space-y-4">
             {/* Read Only Demographics */}
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-2 gap-4 text-xs">
+            <div className="bg-[#f0ebe1]/70 p-4 rounded-xl border border-[#dfdcd7] grid grid-cols-2 gap-4 text-xs">
               <div>
-                <span className="text-slate-400">Full Legal Name</span>
-                <p className="font-semibold text-slate-800 text-sm mt-0.5">
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Full Legal Name</span>
+                <p className="font-semibold text-[#17223a] text-sm mt-0.5">
                   {profile.first_name} {profile.last_name}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-400">Date of Birth</span>
-                <p className="font-semibold text-slate-800 text-sm mt-0.5">
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Date of Birth</span>
+                <p className="font-serif font-semibold tabular-nums text-[#17223a] text-sm mt-0.5">
                   {profile.date_of_birth}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-400">Email Address</span>
-                <p className="font-medium text-slate-700 mt-0.5">{profile.email}</p>
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Email Address</span>
+                <p className="font-medium text-[#17223a] mt-0.5">{profile.email}</p>
               </div>
 
               <div>
-                <span className="text-slate-400">Account Status</span>
-                <p className="font-semibold text-emerald-600 capitalize mt-0.5">
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Account Status</span>
+                <p className="font-semibold text-[#1f6b4e] capitalize mt-0.5">
                   {profile.status}
                 </p>
               </div>
@@ -135,7 +138,7 @@ export const PatientProfilePage: React.FC = () => {
 
             {/* Editable Contact Info */}
             <div className="space-y-4 pt-2">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#204079]">
                 Contact Details (Editable)
               </h4>
 
@@ -151,14 +154,14 @@ export const PatientProfilePage: React.FC = () => {
               />
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-1.5">
                   Residential Address
                 </label>
                 <textarea
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   rows={2}
-                  className="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200 resize-none"
+                  className="w-full px-3.5 py-2 bg-white/95 border border-[#dfdcd7] rounded-lg text-[#17223a] text-sm shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079] resize-none"
                   placeholder="Street, City, Zip"
                 />
               </div>

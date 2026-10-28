@@ -101,28 +101,30 @@ export const InviteDoctorModal: React.FC<InviteDoctorModalProps> = ({
     >
       {result ? (
         <div className="text-center py-6 space-y-3">
-          <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full bg-[#e8f5f0] text-[#1f6b4e] mx-auto flex items-center justify-center border border-[#b8dfd0]">
             <CheckCircle2 className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-slate-800">Doctor Invite Dispatched!</h3>
-          <p className="text-xs text-slate-600 max-w-sm mx-auto">
+          <h3 className="font-serif text-lg font-semibold text-[#17223a]">Doctor Invite Dispatched!</h3>
+          <p className="text-xs text-[#6c747f] max-w-sm mx-auto">
             {result.message || 'Invitation sent successfully. The doctor can activate their account using the link in their email.'}
           </p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="p-3 bg-sky-50 border border-sky-200 rounded-lg text-xs text-sky-800 flex items-start gap-2">
-            <Stethoscope className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 bg-[#e8edf5]/80 border border-[#c8d7eb] rounded-xl text-xs text-[#17223a] flex items-start gap-2.5">
+            <Stethoscope className="w-4 h-4 text-[#204079] shrink-0 mt-0.5" />
             <div>
-              <span className="font-semibold text-sky-900">Doctor Onboarding</span>
-              <p className="mt-0.5">
+              <span className="font-semibold text-[#204079] uppercase tracking-wider text-[11px] block">
+                Doctor Onboarding
+              </span>
+              <p className="mt-0.5 text-[#6c747f] leading-relaxed">
                 Invited doctors receive an email activation link valid for 48 hours to choose their password and set up their clinical schedule.
               </p>
             </div>
           </div>
 
           {error && (
-            <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+            <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -138,14 +140,14 @@ export const InviteDoctorModal: React.FC<InviteDoctorModalProps> = ({
           />
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-semibold text-[#17223a] uppercase tracking-wider mb-1.5">
               Clinical Department *
             </label>
             <div className="relative">
               <select
                 value={selectedDeptId || ''}
                 onChange={(e) => setSelectedDeptId(parseInt(e.target.value))}
-                className="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-500"
+                className="w-full px-3.5 py-2 bg-white/95 border border-[#dfdcd7] rounded-lg text-[#17223a] text-sm shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#204079]/20 focus:border-[#204079]"
                 required
               >
                 {departments.map((dept) => (

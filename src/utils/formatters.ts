@@ -3,17 +3,17 @@ import { AppointmentStatus, UserRole, AccountStatus } from '../types/api';
 export const getStatusBadgeClass = (status: AppointmentStatus): string => {
   switch (status) {
     case 'booked':
-      return 'bg-blue-100 text-blue-800 border-blue-200';
+      return 'bg-[#e8edf5] text-[#204079] border-[#c8d7eb]';
     case 'checked_in':
-      return 'bg-amber-100 text-amber-800 border-amber-200 animate-pulse';
+      return 'bg-[#fef3eb] text-[#c95908] border-[#fcd5b8] font-medium';
     case 'completed':
-      return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      return 'bg-[#e8f5f0] text-[#1f6b4e] border-[#b8dfd0] font-medium';
     case 'cancelled':
-      return 'bg-slate-100 text-slate-600 border-slate-200';
+      return 'bg-[#ede7dc] text-[#6c747f] border-[#dfdcd7]';
     case 'no_show':
-      return 'bg-rose-100 text-rose-800 border-rose-200';
+      return 'bg-[#fcedea] text-[#ab2b1a] border-[#f7c2bb] font-medium';
     default:
-      return 'bg-gray-100 text-gray-800 border-gray-200';
+      return 'bg-[#ede7dc] text-[#6c747f] border-[#dfdcd7]';
   }
 };
 
@@ -37,13 +37,13 @@ export const getStatusLabel = (status: AppointmentStatus): string => {
 export const getAccountStatusBadgeClass = (status: AccountStatus): string => {
   switch (status) {
     case 'active':
-      return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      return 'bg-[#e8f5f0] text-[#1f6b4e] border-[#b8dfd0]';
     case 'invited':
-      return 'bg-purple-50 text-purple-700 border-purple-200';
+      return 'bg-[#f0eaf8] text-[#5e3592] border-[#dcceef]';
     case 'deactivated':
-      return 'bg-rose-50 text-rose-700 border-rose-200';
+      return 'bg-[#fcedea] text-[#ab2b1a] border-[#f7c2bb]';
     default:
-      return 'bg-gray-50 text-gray-700 border-gray-200';
+      return 'bg-[#ede7dc] text-[#6c747f] border-[#dfdcd7]';
   }
 };
 
@@ -70,3 +70,19 @@ export const formatPhoneNumber = (phone: string): string => {
   }
   return phone;
 };
+
+export const formatDoctorName = (email?: string | null): string => {
+  if (!email) return 'Doctor';
+  const handle = email.includes('@') ? email.split('@')[0] : email;
+  const cleanName = handle.replace(/^dr[._\s-]*/i, '').trim();
+  if (!cleanName) return 'Doctor';
+
+  const parts = cleanName.split(/[._\s-]+/).filter(Boolean);
+  if (parts.length === 0) return 'Doctor';
+
+  const formatted = parts
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join(' ');
+  return `Dr. ${formatted}`;
+};
+

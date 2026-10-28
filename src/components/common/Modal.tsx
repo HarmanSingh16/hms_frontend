@@ -39,17 +39,17 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#17223a]/60 backdrop-blur-xs transition-opacity duration-200">
       <div
-        className={`bg-white rounded-xl shadow-2xl border border-slate-200 w-full ${maxWidthClasses[maxWidth]} overflow-hidden transform transition-all`}
+        className={`bg-white rounded-2xl shadow-2xl border border-[#dfdcd7] w-full ${maxWidthClasses[maxWidth]} overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-150`}
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-          <h3 className="text-lg font-semibold text-slate-800">{title}</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#dfdcd7] bg-[#faf6f0]">
+          <h3 className="text-xl font-serif font-semibold text-[#17223a] tracking-tight">{title}</h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 p-1 rounded-md transition-colors"
+            className="text-[#6c747f] hover:text-[#17223a] hover:bg-[#f0ebe1] p-1.5 rounded-lg transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -59,7 +59,7 @@ export const Modal: React.FC<ModalProps> = ({
         <div className="p-6 max-h-[calc(100vh-200px)] overflow-y-auto">{children}</div>
 
         {footer && (
-          <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+          <div className="px-6 py-3.5 bg-[#faf6f0] border-t border-[#dfdcd7] flex items-center justify-end gap-3">
             {footer}
           </div>
         )}

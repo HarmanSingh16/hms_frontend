@@ -100,29 +100,31 @@ export const DoctorSchedulePage: React.FC = () => {
   const addInterval = (weekday: number) => {
     setSchedules((prev) => {
       const existing = prev.find((s) => s.weekday === weekday);
-      if (existing) {
-        return prev.map((s) =>
-          s.weekday === weekday
-            ? { ...s, intervals: [...s.intervals, { start_time: '09:00', end_time: '17:00' }] }
-            : s
-        );
-      } else {
-        return [...prev, { weekday, intervals: [{ start_time: '09:00', end_time: '17:00' }] }];
+      if (!existing) {
+        return [...prev, { weekday, intervals: [{ start_time: '09:00', end_time: '13:00' }] }];
       }
+      return prev.map((s) =>
+        s.weekday === weekday
+          ? {
+              ...s,
+              intervals: [...s.intervals, { start_time: '14:00', end_time: '18:00' }],
+            }
+          : s
+      );
     });
   };
 
   // Remove interval
   const removeInterval = (weekday: number, index: number) => {
-    setSchedules((prev) => {
-      return prev
+    setSchedules((prev) =>
+      prev
         .map((s) => {
           if (s.weekday !== weekday) return s;
-          const updatedIntervals = s.intervals.filter((_, i) => i !== index);
-          return { ...s, intervals: updatedIntervals };
+          const updated = s.intervals.filter((_, idx) => idx !== index);
+          return { ...s, intervals: updated };
         })
-        .filter((s) => s.intervals.length > 0);
-    });
+        .filter((s) => s.intervals.length > 0)
+    );
   };
 
   // Update interval times
@@ -135,60 +137,62 @@ export const DoctorSchedulePage: React.FC = () => {
     setSchedules((prev) =>
       prev.map((s) => {
         if (s.weekday !== weekday) return s;
-        const updated = [...s.intervals];
-        updated[index] = { ...updated[index], [field]: value };
+        const updated = s.intervals.map((intv, idx) => {
+          if (idx !== index) return intv;
+          return { ...intv, [field]: value };
+        });
         return { ...s, intervals: updated };
       })
     );
   };
 
-  // Save Schedule: Phase 1 (Preview)
+  // Save schedule phase 1: dry-run
   const handleSaveSchedule = async () => {
     setIsSaving(true);
     setError(null);
     setSaveSuccess(false);
 
     try {
-      // Phase 1: preview conflicts
-      const preview = await doctorsApi.updateOfficeHours(doctorId, schedules, true);
-
-      if (preview.conflicts_count > 0) {
-        setPreviewConflicts(preview.affected_appointments);
+      const res = await doctorsApi.updateOfficeHours(doctorId, schedules, true);
+      if (res.affected_appointments && res.affected_appointments.length > 0) {
+        setPreviewConflicts(res.affected_appointments);
       } else {
-        // No conflicts, commit immediately
-        await doctorsApi.updateOfficeHours(doctorId, schedules, false);
-        setSaveSuccess(true);
-        fetchSchedule();
+        await handleConfirmScheduleCommit();
       }
     } catch (err: unknown) {
-      setError(getErrorMessage(err, 'Failed to update schedule'));
+      setError(getErrorMessage(err, 'Failed to update working hours schedule.'));
     } finally {
       setIsSaving(false);
     }
   };
 
-  // Confirm Phase 2 (Force commit with auto-cancellations)
+  // Save schedule phase 2: commit
   const handleConfirmScheduleCommit = async () => {
     setIsSaving(true);
-    setError(null);
-
     try {
       await doctorsApi.updateOfficeHours(doctorId, schedules, false);
       setPreviewConflicts(null);
       setSaveSuccess(true);
       fetchSchedule();
     } catch (err: unknown) {
-      setError(getErrorMessage(err, 'Failed to commit schedule changes'));
+      setError(getErrorMessage(err, 'Failed to commit schedule changes.'));
     } finally {
       setIsSaving(false);
     }
   };
 
-  // Book leave / time-off
+  // Book leave
   const handleBookLeave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!leaveStart || !leaveEnd) {
-      setLeaveError('Please select start and end timestamps.');
+      setLeaveError('Please specify start and end dates.');
+      return;
+    }
+
+    const start = new Date(leaveStart);
+    const end = new Date(leaveEnd);
+    if (end <= start) {
+      setLeaveError('Leave end time must be after start time.');
       return;
     }
 
@@ -197,8 +201,8 @@ export const DoctorSchedulePage: React.FC = () => {
 
     try {
       await doctorsApi.bookTimeOff(doctorId, {
-        starts_at: new Date(leaveStart).toISOString(),
-        ends_at: new Date(leaveEnd).toISOString(),
+        starts_at: start.toISOString(),
+        ends_at: end.toISOString(),
         reason: leaveReason.trim() || undefined,
       });
 
@@ -208,7 +212,7 @@ export const DoctorSchedulePage: React.FC = () => {
       setLeaveReason('');
       fetchSchedule();
     } catch (err: unknown) {
-      setLeaveError(getErrorMessage(err, 'Failed to book leave'));
+      setLeaveError(getErrorMessage(err, 'Failed to register leave.'));
     } finally {
       setIsBookingLeave(false);
     }
@@ -219,11 +223,12 @@ export const DoctorSchedulePage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+          <span className="eyebrow mb-1 block">Clinical Practice</span>
+          <h1 className="font-serif text-3xl font-semibold text-[#17223a] tracking-tight">
             Office Hours & Leaves
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Manage your weekly recurring availability and schedule vacation or blackout dates.
+          <p className="text-xs sm:text-sm text-[#6c747f] mt-1 font-normal">
+            Configure weekly recurring consultation intervals and book scheduled leaves.
           </p>
         </div>
 
@@ -232,7 +237,7 @@ export const DoctorSchedulePage: React.FC = () => {
             variant="secondary"
             size="sm"
             onClick={applyStandardPreset}
-            leftIcon={<Sparkles className="w-3.5 h-3.5 text-amber-500" />}
+            leftIcon={<Sparkles className="w-3.5 h-3.5 text-[var(--accent-gap)]" />}
           >
             Apply Standard Preset (Mon-Fri 9-5)
           </Button>
@@ -248,14 +253,14 @@ export const DoctorSchedulePage: React.FC = () => {
       </div>
 
       {saveSuccess && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-3.5 bg-[#e8f5f0] border border-[#b8dfd0] rounded-xl text-[#1f6b4e] text-xs flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-[#1f6b4e] shrink-0" />
           <span>Weekly shift schedule updated successfully.</span>
         </div>
       )}
 
       {error && (
-        <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+        <div className="p-3.5 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -270,15 +275,14 @@ export const DoctorSchedulePage: React.FC = () => {
             size="sm"
             onClick={handleSaveSchedule}
             isLoading={isSaving}
-            className="bg-sky-600 hover:bg-sky-700"
           >
             Save Shifts
           </Button>
         }
       >
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-12 text-slate-500">
-            <Loader2 className="w-6 h-6 animate-spin text-sky-600 mb-2" />
+          <div className="flex flex-col items-center justify-center py-12 text-[#6c747f]">
+            <Loader2 className="w-6 h-6 animate-spin text-[#204079] mb-2" />
             <p className="text-xs">Loading working schedule...</p>
           </div>
         ) : (
@@ -290,18 +294,18 @@ export const DoctorSchedulePage: React.FC = () => {
               return (
                 <div
                   key={dayName}
-                  className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                  className="p-3.5 bg-[#faf6f0] border border-[#dfdcd7] rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
                 >
                   <div className="w-32">
-                    <span className="text-sm font-bold text-slate-800">{dayName}</span>
-                    <p className="text-[11px] text-slate-400">
+                    <span className="text-sm font-semibold text-[#17223a]">{dayName}</span>
+                    <p className="text-[11px] text-[#6c747f]">
                       {intervals.length === 0 ? 'Off Duty' : `${intervals.length} shift(s)`}
                     </p>
                   </div>
 
                   <div className="flex-1 space-y-2">
                     {intervals.length === 0 ? (
-                      <span className="text-xs text-slate-400 italic">No working hours set</span>
+                      <span className="text-xs text-[#9e9689] italic">No working hours set</span>
                     ) : (
                       intervals.map((interval, idx) => (
                         <div key={idx} className="flex items-center gap-2 flex-wrap">
@@ -311,21 +315,21 @@ export const DoctorSchedulePage: React.FC = () => {
                             onChange={(e) =>
                               updateInterval(weekdayIndex, idx, 'start_time', e.target.value)
                             }
-                            className="px-2.5 py-1 text-xs border border-slate-300 rounded bg-white"
+                            className="px-2.5 py-1 text-xs border border-[#dfdcd7] rounded-md bg-white text-[#17223a] font-serif tabular-nums shadow-2xs focus:border-[#204079] focus:outline-none"
                           />
-                          <span className="text-xs text-slate-400">to</span>
+                          <span className="text-xs text-[#6c747f]">to</span>
                           <input
                             type="time"
                             value={interval.end_time}
                             onChange={(e) =>
                               updateInterval(weekdayIndex, idx, 'end_time', e.target.value)
                             }
-                            className="px-2.5 py-1 text-xs border border-slate-300 rounded bg-white"
+                            className="px-2.5 py-1 text-xs border border-[#dfdcd7] rounded-md bg-white text-[#17223a] font-serif tabular-nums shadow-2xs focus:border-[#204079] focus:outline-none"
                           />
                           <button
                             type="button"
                             onClick={() => removeInterval(weekdayIndex, idx)}
-                            className="text-slate-400 hover:text-rose-600 p-1"
+                            className="text-[#6c747f] hover:text-[#ab2b1a] p-1 cursor-pointer"
                             title="Remove Shift"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -358,23 +362,23 @@ export const DoctorSchedulePage: React.FC = () => {
         subtitle="During time-off, doctor slots are unavailable. Existing visits are automatically cancelled."
       >
         {upcomingTimeOff.length === 0 ? (
-          <p className="text-xs text-slate-500 py-4 text-center">No upcoming time-off scheduled.</p>
+          <p className="text-xs text-[#6c747f] py-4 text-center">No upcoming time-off scheduled.</p>
         ) : (
           <div className="space-y-2">
             {upcomingTimeOff.map((leave) => (
               <div
                 key={leave.id}
-                className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-between text-xs"
+                className="p-3 bg-[#faf6f0] border border-[#dfdcd7] rounded-lg flex items-center justify-between text-xs"
               >
                 <div>
-                  <span className="font-semibold text-slate-800">
+                  <span className="font-serif font-semibold tabular-nums text-[#17223a]">
                     {formatDateTime(leave.starts_at)} &rarr; {formatDateTime(leave.ends_at)}
                   </span>
                   {leave.reason && (
-                    <p className="text-slate-500 mt-0.5">Reason: {leave.reason}</p>
+                    <p className="text-[#6c747f] mt-0.5">Reason: {leave.reason}</p>
                   )}
                 </div>
-                <span className="px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 text-[11px] font-semibold">
+                <span className="px-2 py-0.5 rounded-full bg-[#f0eaf8] text-[#5e3592] border border-[#dcceef] text-[11px] font-semibold">
                   Approved Leave
                 </span>
               </div>
@@ -411,13 +415,13 @@ export const DoctorSchedulePage: React.FC = () => {
         }
       >
         <div className="space-y-4">
-          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-xs flex items-start gap-2.5">
-            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 bg-[#fef3eb] border border-[#fcd5b8] rounded-xl text-[#c95908] text-xs flex items-start gap-2.5">
+            <AlertTriangle className="w-5 h-5 text-[#c95908] shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-amber-900">
+              <p className="font-semibold text-[#17223a] text-sm">
                 Warning: {previewConflicts?.length} Existing Bookings Affected
               </p>
-              <p className="mt-0.5 text-amber-800">
+              <p className="mt-0.5 text-[#6c747f] leading-relaxed">
                 Modifying these hours will invalidate the following booked appointments. If you
                 proceed, these visits will be cancelled with reason &quot;doctor_schedule_change&quot; and
                 affected patients will receive notification emails.
@@ -425,16 +429,16 @@ export const DoctorSchedulePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="border border-slate-200 rounded-lg divide-y divide-slate-100 max-h-48 overflow-y-auto text-xs">
+          <div className="border border-[#dfdcd7] rounded-xl divide-y divide-[#dfdcd7] max-h-48 overflow-y-auto text-xs bg-white">
             {previewConflicts?.map((c) => (
               <div key={c.id} className="p-2.5 flex items-center justify-between">
                 <div>
-                  <span className="font-semibold text-slate-800">
+                  <span className="font-serif font-semibold text-[#17223a]">
                     Appointment #{c.id}
                   </span>
-                  <span className="text-slate-500 ml-2">Patient #{c.patient_id}</span>
+                  <span className="text-[#6c747f] ml-2">Patient #{c.patient_id}</span>
                 </div>
-                <span className="text-slate-600">{formatDateTime(c.starts_at)}</span>
+                <span className="text-[#17223a] font-serif tabular-nums">{formatDateTime(c.starts_at)}</span>
               </div>
             ))}
           </div>
@@ -465,7 +469,7 @@ export const DoctorSchedulePage: React.FC = () => {
       >
         <form onSubmit={handleBookLeave} className="space-y-4">
           {leaveError && (
-            <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+            <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{leaveError}</span>
             </div>

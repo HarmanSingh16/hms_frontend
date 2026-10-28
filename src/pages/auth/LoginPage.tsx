@@ -59,22 +59,27 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-sky-50/40 to-slate-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f4ed] via-[#f3ede1] to-[#eae0cf] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-600 to-cyan-500 text-white shadow-lg mb-4">
-          <Activity className="w-8 h-8" />
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#204079] text-[#faf6f0] shadow-md border border-[#1b3769] mb-4">
+          <Activity className="w-7 h-7 text-[#faf6f0]" />
         </div>
-        <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">HealthPulse HMS</h2>
-        <p className="mt-2 text-sm text-slate-600">Hospital Management & Scheduling System</p>
+        <div className="eyebrow mb-1">Cornerstone Healthcare Systems</div>
+        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#17223a] tracking-tight">
+          Cornerstone HealthPulse
+        </h1>
+        <p className="mt-1.5 text-sm text-[#6c747f]">
+          Trustworthy Clinical Operations & Scheduling
+        </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-slate-200/80">
+        <div className="bg-white/95 backdrop-blur-xs py-8 px-6 shadow-xl sm:rounded-2xl sm:px-10 border border-[#dfdcd7]">
           {/* Quick Demo Pre-seed Bar */}
-          <div className="mb-6 p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 mb-2">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>One-Click Demo Accounts:</span>
+          <div className="mb-6 p-3.5 bg-[#f0ebe1]/80 border border-[#dfdcd7] rounded-xl">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#17223a] mb-2 uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--accent-gap)]" />
+              <span>One-Click Role Authentication:</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               {DEMO_ACCOUNTS.map((acc) => (
@@ -82,10 +87,10 @@ export const LoginPage: React.FC = () => {
                   key={acc.email}
                   type="button"
                   onClick={() => fillDemoAccount(acc.email)}
-                  className="px-2.5 py-1.5 text-left text-xs bg-white hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 border border-slate-200 rounded-lg transition-colors font-medium text-slate-700 flex items-center justify-between"
+                  className="px-2.5 py-1.5 text-left text-xs bg-white hover:bg-[#faf6f0] hover:border-[#204079]/50 border border-[#dfdcd7] rounded-lg transition-colors font-medium text-[#17223a] flex items-center justify-between cursor-pointer"
                 >
                   <span className="truncate">{acc.label.split(' ')[0]}</span>
-                  <span className="text-[10px] text-slate-400 font-mono">
+                  <span className="text-[10px] text-[#6c747f] font-mono uppercase">
                     {acc.role.slice(0, 3)}
                   </span>
                 </button>
@@ -95,7 +100,7 @@ export const LoginPage: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+              <div className="p-3 bg-[#fcedea] border border-[#f7c2bb] rounded-lg text-[#ab2b1a] text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -125,16 +130,16 @@ export const LoginPage: React.FC = () => {
               isLoading={isLoading}
               rightIcon={<ArrowRight className="w-4 h-4" />}
             >
-              Sign In
+              Sign In to Console
             </Button>
           </form>
 
-          <div className="mt-6 border-t border-slate-100 pt-4 text-center">
+          <div className="mt-6 border-t border-[#dfdcd7] pt-4 text-center">
             <Link
               to="/claim-invite"
-              className="text-xs text-sky-600 hover:text-sky-800 font-medium inline-flex items-center gap-1"
+              className="text-xs text-[#204079] hover:text-[#18315c] font-medium inline-flex items-center gap-1"
             >
-              Have an invitation token? Activate your account &rarr;
+              Have a clinical invitation token? Activate your account &rarr;
             </Link>
           </div>
         </div>

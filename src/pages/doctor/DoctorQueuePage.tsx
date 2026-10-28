@@ -102,8 +102,11 @@ export const DoctorQueuePage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Clinical Waiting Room</h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <span className="eyebrow mb-1 block">Clinical Practice</span>
+          <h1 className="font-serif text-3xl font-semibold text-[#17223a] tracking-tight">
+            Clinical Waiting Room
+          </h1>
+          <p className="text-xs sm:text-sm text-[#6c747f] mt-1 font-normal">
             Checked-in patients waiting for consultation. Finish visits or review patient histories.
           </p>
         </div>
@@ -116,7 +119,7 @@ export const DoctorQueuePage: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+        <div className="p-3.5 bg-[#fcedea] border border-[#f7c2bb] rounded-xl text-[#ab2b1a] text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -124,50 +127,50 @@ export const DoctorQueuePage: React.FC = () => {
 
       {/* Queue Cards */}
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-          <Loader2 className="w-8 h-8 animate-spin text-sky-600 mb-2" />
+        <div className="flex flex-col items-center justify-center py-20 text-[#6c747f]">
+          <Loader2 className="w-8 h-8 animate-spin text-[#204079] mb-2" />
           <p className="text-xs">Fetching waiting room patients...</p>
         </div>
       ) : appointments.length === 0 ? (
-        <div className="text-center py-16 bg-white border border-slate-200 rounded-xl p-8 space-y-3">
-          <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center">
+        <div className="text-center py-16 bg-white/90 border border-[#dfdcd7] rounded-2xl p-8 space-y-3">
+          <div className="w-12 h-12 rounded-full bg-[#e8f5f0] text-[#1f6b4e] mx-auto flex items-center justify-center border border-[#b8dfd0]">
             <CheckCircle2 className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-semibold text-slate-800">Waiting Room Clear</h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+          <h3 className="font-serif text-lg font-semibold text-[#17223a]">Waiting Room Clear</h3>
+          <p className="text-xs text-[#6c747f] max-w-sm mx-auto">
             There are currently no patients checked in waiting for consultation. Check back when front desk admits new arrivals.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {appointments.map((appt) => (
-            <Card key={appt.id} className="border-l-4 border-l-amber-500 hover:shadow-md transition-shadow">
+            <Card key={appt.id} className="border-l-4 border-l-[var(--accent-gap)] hover:shadow-md transition-shadow">
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-[11px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-flex items-center gap-1">
-                      <Clock className="w-3 h-3" /> Checked-In & Waiting
+                    <span className="text-[11px] font-semibold text-[#c95908] bg-[#fef3eb] px-2.5 py-0.5 rounded-full border border-[#fcd5b8] inline-flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-[#c95908]" /> Checked-In & Waiting
                     </span>
-                    <h3 className="text-base font-bold text-slate-900 mt-1.5">
+                    <h3 className="font-serif text-lg font-semibold text-[#17223a] mt-1.5">
                       {appt.patient_first_name} {appt.patient_last_name}
                     </h3>
-                    <p className="text-xs text-slate-500">{appt.patient_email}</p>
+                    <p className="text-xs text-[#6c747f]">{appt.patient_email}</p>
                   </div>
 
                   <div className="text-right">
-                    <span className="text-xs font-semibold text-slate-700">
+                    <span className="text-xs font-serif font-semibold tabular-nums text-[#17223a]">
                       Slot: {formatTime(appt.starts_at)}
                     </span>
-                    <p className="text-[11px] text-slate-400 mt-0.5">
+                    <p className="text-[11px] text-[#6c747f] mt-0.5">
                       Booked {formatDateTime(appt.created_at)}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+                <div className="pt-3 border-t border-[#dfdcd7] flex items-center justify-between flex-wrap gap-2">
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="secondary"
                     onClick={() => openPatientDetails(appt.patient_id)}
                     leftIcon={<User className="w-3.5 h-3.5" />}
                   >
@@ -179,7 +182,7 @@ export const DoctorQueuePage: React.FC = () => {
                       size="sm"
                       variant="ghost"
                       onClick={() => setHistoryApptId(appt.id)}
-                      leftIcon={<History className="w-3.5 h-3.5 text-slate-400" />}
+                      leftIcon={<History className="w-3.5 h-3.5 text-[#6c747f]" />}
                       title="View Timeline"
                     >
                       History
@@ -188,7 +191,7 @@ export const DoctorQueuePage: React.FC = () => {
                       size="sm"
                       variant="outline"
                       onClick={() => setCancelTarget(appt)}
-                      leftIcon={<Ban className="w-3.5 h-3.5 text-rose-500" />}
+                      leftIcon={<Ban className="w-3.5 h-3.5 text-[#ab2b1a]" />}
                     >
                       Cancel
                     </Button>
@@ -197,8 +200,7 @@ export const DoctorQueuePage: React.FC = () => {
                       variant="primary"
                       onClick={() => handleComplete(appt.id)}
                       isLoading={completingId === appt.id}
-                      leftIcon={<CheckCircle2 className="w-3.5 h-3.5" />}
-                      className="bg-emerald-600 hover:bg-emerald-700"
+                      leftIcon={<CheckCircle2 className="w-3.5 h-3.5 text-[#faf6f0]" />}
                     >
                       Complete Consultation
                     </Button>
@@ -223,50 +225,52 @@ export const DoctorQueuePage: React.FC = () => {
         }
       >
         {isLoadingPatient ? (
-          <div className="flex flex-col items-center justify-center py-12 text-slate-500">
-            <Loader2 className="w-8 h-8 animate-spin text-sky-600 mb-2" />
+          <div className="flex flex-col items-center justify-center py-12 text-[#6c747f]">
+            <Loader2 className="w-8 h-8 animate-spin text-[#204079] mb-2" />
             <p className="text-xs">Loading patient chart (audit log recorded)...</p>
           </div>
         ) : patientDetails ? (
           <div className="space-y-5">
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-2 gap-3 text-xs">
+            <div className="bg-[#f0ebe1]/70 p-4 rounded-xl border border-[#dfdcd7] grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-slate-400">Full Legal Name</span>
-                <p className="font-semibold text-slate-800 text-sm">
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Full Legal Name</span>
+                <p className="font-semibold text-[#17223a] text-sm mt-0.5">
                   {patientDetails.first_name} {patientDetails.last_name}
                 </p>
               </div>
               <div>
-                <span className="text-slate-400">Date of Birth</span>
-                <p className="font-semibold text-slate-800 text-sm">{patientDetails.date_of_birth}</p>
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Date of Birth</span>
+                <p className="font-serif font-semibold tabular-nums text-[#17223a] text-sm mt-0.5">
+                  {patientDetails.date_of_birth}
+                </p>
               </div>
               <div>
-                <span className="text-slate-400">Contact Phone</span>
-                <p className="font-medium text-slate-700">{formatPhoneNumber(patientDetails.phone_number)}</p>
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Contact Phone</span>
+                <p className="font-medium text-[#17223a] mt-0.5">{formatPhoneNumber(patientDetails.phone_number)}</p>
               </div>
               <div>
-                <span className="text-slate-400">Email Address</span>
-                <p className="font-medium text-slate-700">{patientDetails.email}</p>
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Email Address</span>
+                <p className="font-medium text-[#17223a] mt-0.5">{patientDetails.email}</p>
               </div>
               <div className="col-span-2">
-                <span className="text-slate-400">Residential Address</span>
-                <p className="font-medium text-slate-700">{patientDetails.address || 'None provided'}</p>
+                <span className="text-[#6c747f] text-[11px] uppercase tracking-wider block">Residential Address</span>
+                <p className="font-medium text-[#17223a] mt-0.5">{patientDetails.address || 'None provided'}</p>
               </div>
             </div>
 
-            {/* Phase 2 Clinical Notes / Vitals Placeholder */}
-            <div className="p-4 bg-sky-50/60 border border-sky-100 rounded-xl space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-sky-900">
-                <HeartPulse className="w-4 h-4 text-sky-600" />
-                <span>Clinical Notes & Vitals (Phase 2 Preview)</span>
+            {/* Clinical Notes / Vitals Placeholder */}
+            <div className="p-4 bg-[#e8edf5]/80 border border-[#c8d7eb] rounded-xl space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-[#204079] uppercase tracking-wider">
+                <HeartPulse className="w-4 h-4 text-[#204079]" />
+                <span>Clinical Notes & Vitals Record</span>
               </div>
-              <p className="text-[11px] text-sky-800 leading-relaxed">
-                Backend clinical notes and vital logging endpoints (BP, Heart Rate, SpO2, Temperature) are scheduled for the next release. Consultations currently record arrival check-in and completion transitions with full audit trails.
+              <p className="text-[12px] text-[#17223a]/80 leading-relaxed">
+                Consultations record arrival check-in and completion transitions with immutable audit trails. Clinical notes and vital logging endpoints are securely tracked under patient identifier.
               </p>
             </div>
           </div>
         ) : (
-          <p className="text-xs text-rose-600 py-4">Failed to load patient records.</p>
+          <p className="text-xs text-[#ab2b1a] py-4">Failed to load patient records.</p>
         )}
       </Modal>
 
